@@ -1,0 +1,17 @@
+# Ignora todos los archivos
+*
+
+# Excepto las carpetas
+!*TPFinal/
+!*lib/
+!*src/
+
+# Excepto los archivos .java
+!*.java
+
+# Excepto los archivos .txt
+!*.txt
+
+# Excepto el gitignore y el readme.md
+!*.gitignore
+!*.md
