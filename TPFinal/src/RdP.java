@@ -1,12 +1,12 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-
+//import java.util.Arrays;
 
 /**
  * Clase RdP.
- * Representa la Red de Petri con la capacidad de cargar su configuración desde archivos
+ * Representa la Red de Petri con la capacidad de cargar su configuración desde
+ * archivos
  * y gestionar las transiciones sensibilizadas y disparos de eventos.
  * 
  * @author Made Orona
@@ -49,14 +49,15 @@ public class RdP {
     }
 
     /**
-     * Método que actualiza el vector de transiciones sensibilizadas. 
-     * Una transición está sensibilizada si cumple las precondiciones definidas en la matriz 
+     * Método que actualiza el vector de transiciones sensibilizadas.
+     * Una transición está sensibilizada si cumple las precondiciones definidas en
+     * la matriz
      * de incidencia negativa y las restricciones definidas (si es que tiene).
      */
     public void updateSensibilizadas() {
 
-        System.out.println("Marcado:");
-        System.out.println(Arrays.toString(vectorM));
+        // System.out.println("Marcado:");
+        // System.out.println(Arrays.toString(vectorM));
 
         // Iteramos sobre todas las transiciones (columnas de la matriz)
         for (int t = 0; t < sensibilizadas.length; t++) {
@@ -78,25 +79,29 @@ public class RdP {
     }
 
     /**
-     * Ejecuta una transición disparándola si está sensibilizada. 
-     * Actualiza el vector de marcado y las transiciones sensibilizadas después del disparo.
+     * Ejecuta una transición disparándola si está sensibilizada.
+     * Actualiza el vector de marcado y las transiciones sensibilizadas después del
+     * disparo.
      * 
-     * @param transicion índice de la transición a disparar (debe estar sensibilizada).
-     * @throws ArrayIndexOutOfBoundsException si el índice de la transición no es válido.
+     * @param transicion índice de la transición a disparar (debe estar
+     *                   sensibilizada).
+     * @throws ArrayIndexOutOfBoundsException si el índice de la transición no es
+     *                                        válido.
      */
     public void disparar(int transicion) {
         if (sensibilizadas[transicion]) {
             // Modificar vectorM directamente
-            for (int i = 0; i < vectorM.length; i++) {
-                vectorM[i] += matrixI[i][transicion];
+            for (int p = 0; p < vectorM.length; p++) {
+                vectorM[p] += matrixI[p][transicion];
             }
 
             // Log de disparo, solo si es necesario
             if (debugMode) { // Usa una variable booleana para controlar la impresión
-                System.out.println("Disparo: " + transicion);
+                System.out.println("Disparó T" + transicion);
+                System.out.println("Marcado después de T" + transicion + ": " + java.util.Arrays.toString(vectorM));
             }
 
-            // Solo actualizamos sensibilización si es necesario
+            // Actualizar sensibilizaciones después del disparo
             updateSensibilizadas();
         }
     }
@@ -114,13 +119,18 @@ public class RdP {
     /**
      * Obtiene el vector de transiciones sensibilizadas.
      * 
-     * @return un arreglo booleano donde cada posición indica si la transición está sensibilizada.
+     * @return un arreglo booleano donde cada posición indica si la transición está
+     *         sensibilizada.
      */
     public boolean[] getSensibilizadas() {
         return sensibilizadas;
     }
 
-/////////////////////////////////////////////////////////////////////////////////////////
+    public int[] getVectorM() {
+        return vectorM; // Devuelve el vector de marcado
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Lee una matriz desde un archivo de texto.
      * 
